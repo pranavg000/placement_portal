@@ -18,13 +18,10 @@
     {{ chart_list|load_charts:"br_cht,pi_cht,day_cht"}}
 </head>
 
+<button><a href="{% url 'home:showStudent' %}">Go to Student List</a></button>
 
+<button><a href="{% url 'authentication:home' %}">Go to Login Page</a></button>
 
-{% if user.is_authenticated %}
-<button><a href="{% url 'auths:logout' %}">Logout</a></button>
-{% else %}
-<button><a href="{% url 'auths:login' %}">Login</a></button>
-{% endif %}
 
 <hr>
 

@@ -7,8 +7,10 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 
-
 def index(request):
+
+	return render("home.html")
+def charts(request):
     branch_data =  DataPool(
            series=
             [{'options': {
@@ -107,8 +109,7 @@ def index(request):
     return render(request,'check.html', 
         {'chart_list': [br_cht, pi_cht,day_cht]})
 
-
-@login_required()
+@login_required
 def studentsList(request):
 
 	students = Student.objects.all().order_by('roll')
@@ -205,7 +206,7 @@ def studentDetails(request, student_id):
 
 		return render(request, 'home/studentDetails.html', context)
 
-
+@login_required
 def changestatus(request):
 	if request.method == 'POST':
 		id = request.POST['student_id']
@@ -215,7 +216,6 @@ def changestatus(request):
 		dobj = Day.objects.get(dayNum=student.day, branch=student.branch)
 	
 		student.branch.num-=1
-		
 
 		dobj.num -= 1
 		dobj.save()
@@ -291,12 +291,7 @@ def searchStudentList(request):
 		search_text=request.POST['search_text']
 		val = request.POST['val']
 		place=request.POST['place']
-		# print(search_text)
-		# print(val)
-		
 
-
-		
 		students = Student.objects.filter(name__contains = search_text)
 		students |= Student.objects.filter(company__contains = search_text)
 		students |= Student.objects.filter(branch__branchName__contains = search_text)
@@ -316,20 +311,11 @@ def searchStudentList(request):
 				students = students.filter(placed=False)
 			else:
 				students = students
-
-		
-
-
 	else:
 		search_text=" "
 		students=[]
 
 	return render(request,'home/ajax_search.html',{'students':students})
-
-
-
-
-
 
 
 def branchlist(request):
@@ -367,7 +353,6 @@ def branchlistshow(request):
 		val = request.POST['val']
 		place=request.POST['place']
 
-
 		if val:
 			if place == "True":
 				students = Student.objects.filter(branch__branchName=val,placed=True)
@@ -382,14 +367,6 @@ def branchlistshow(request):
 				students = Student.objects.filter(placed=False)
 			else:
 				students = Student.objects.all()
-
-
-
-
-		
-
-
-
 	else:
 		val = " "
 		students = []
