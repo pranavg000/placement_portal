@@ -10,142 +10,25 @@ from chartit import DataPool, Chart, PivotDataPool, PivotChart
 def index(request):
 
 	return render("home.html")
-def charts(request):
-    branch_data =  DataPool(
-           series=
-            [{'options': {
-            'source': Branch.objects.all()},
-                'terms': [{'branch': 'branchName',
-                'placed': 'num'}]
-                },
-
-             ]) 
-
-    br_cht = Chart(
-            datasource = branch_data,
-            series_options =
-              [{'options':{
-                  'type': 'column',
-                  'stacking': False},
-                'terms':{
-                  'branch': [
-                    'placed']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Number of Students Placed'},
-               'xAxis': {
-                   'title':{'text': 'Branch'}},
-               'yAxis': {
-                   'title': {'text': 'Students Placed'}},
-                'legend': {
-                    'enabled': True},
-                'credits': {
-                    'enabled': True}},)
-                   
-    pi_cht = Chart(
-            datasource = branch_data,
-            series_options =
-              [{'options':{
-                  'type': 'pie',
-                  'plotBorderWidth': 1,
-                  'zoomType': 'xy',
-                 
-                  'legend':{
-                      'enabled': True,
-                  }},
-                  
-                'terms':{
-                  'branch': [
-                    'placed']
-                  }}],
-    
-            chart_options =
-              {'title': {
-                   'text': 'Number of Students Placed - Pie Chart'},
-               'xAxis': {
-                   'title':{'text': 'Branch'}},
-               'yAxis': {
-                   'title': {'text': 'Placed'}},
-                   
-                'legend': {
-                    'enabled': True},
-                'credits': {
-                    'enabled': True}},)
-    
-
-    day_data =  DataPool(
-           series=
-            [{'options': {
-            'source': DayTotal.objects.all()},
-                'terms': [{'day': 'dayNum',
-                'placed': 'num'}]
-                },
-
-             ]) 
-
-    day_cht = Chart(
-            datasource = day_data,
-            series_options =
-              [{'options':{
-                  'type': 'column',
-                  'stacking': False},
-                'terms':{
-                  'day': [
-                    'placed']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Number of Students Placed: Day-Wise'},
-               'xAxis': {
-                   'title':{'text': 'Day'}},
-               'yAxis': {
-                   'title': {'text': 'Students Placed'}},
-                'legend': {
-                    'enabled': True},
-                'credits': {
-                    'enabled': False}},)
-                   
-    return render(request,'check.html', 
-        {'chart_list': [br_cht, pi_cht,day_cht]})
 
 @login_required
-def studentsList(request):
+def charts(request):
 
-	students = Student.objects.all().order_by('roll')
-	context = {}
-	context.update(csrf(request))
-	context['students']=students
+	Day.objects.all().delete()
+	DayTotal.objects.all().delete()
+	students = Student.objects.all()
+	for branch in Branch.objects.all():
+		branch.num=0
+		branch.mnum=0
+		branch.save()
+	for student in students:
 
-	return render_to_response('home/studentsList.html',context)
+		day = student.day
+		dobj = Day.objects.filter(dayNum=day, branch=student.branch)
 
-
-@login_required()
-def studentDetails(request, student_id):
-
-
-	student = Student.objects.get(pk=int(student_id))
-
-	if request.method == 'POST':
-		form = StudentPlacedForm(request.POST)
-		if form.is_valid():
-			placed = form.cleaned_data.get('placed')
-			company = form.cleaned_data.get('company')
-			sector = form.cleaned_data.get('sector')
-			profile = form.cleaned_data.get('profile')
-			day = form.cleaned_data.get('day')
-			slot = form.cleaned_data.get('slot')
-			student.placed = True
-			student.company = company
-			student.sector = sector
-			student.profile = profile
+		programs = student.programs
+		if programs == 'BTech':
 			student.branch.num+=1
-			student.day=day
-			student.slot=slot
-			
-
-			dobj = Day.objects.filter(dayNum=day, branch=student.branch)
-			
 			if dobj.count()==0:
 
 				Day.objects.create(dayNum=day, branch=student.branch)
@@ -167,10 +50,8 @@ def studentDetails(request, student_id):
 				numObj = DayTotal.objects.filter(dayNum=day)
 				for i in numObj:
 					count+=i.num
-					i.delete()
 
-				DayTotal.objects.create(dayNum=day)	
-				numObj = DayTotal.objects.get(dayNum=day)
+				numObj = numObj[0]
 				numObj.num=count
 
 			dobj.num += 1
@@ -178,6 +59,472 @@ def studentDetails(request, student_id):
 
 			numObj.num+=1;
 			numObj.save();
+
+		elif programs == 'MTech':
+
+			student.branch.mnum+=1
+			if dobj.count()==0:
+
+				Day.objects.create(dayNum=day, branch=student.branch)
+				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+
+			else:
+				dobj = dobj[0]
+
+			numObj = DayTotal.objects.filter(dayNum=day)
+			
+			if numObj.count()==0:
+				
+				DayTotal.objects.create(dayNum=day)
+				numObj = DayTotal.objects.get(dayNum=day)
+			
+			elif numObj.count()>=1:
+
+				count = 0;
+				numObj = DayTotal.objects.filter(dayNum=day)
+				for i in numObj:
+					count+=i.mnum
+
+				numObj = numObj[0]
+				numObj.mnum=count
+
+			dobj.mnum += 1
+			dobj.save()
+
+			numObj.mnum+=1;
+			numObj.save();
+		student.branch.save()
+
+	branch_data =  DataPool(
+           series=
+            [{'options': {
+            'source': Branch.objects.all()},
+                'terms': [{'branch': 'branchName',
+                'placed': 'num'}]
+                },
+
+             ]) 
+
+	cht1 = Chart(
+            datasource = branch_data,
+            series_options =
+              [{'options':{
+                  'type': 'column',
+                  'stacking': False,
+                  'color': '#2D2F91'},
+                'terms':{
+                  'branch': [
+                    'placed']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Number of Students Placed',
+                   'style':{
+                		'display':'none'
+                	}},
+                'xAxis':{
+                	'minorGridLineColor': '#00ff00',
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+                'yAxis':{
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+               
+                'legend': {
+                    'enabled': True},
+                'credits': {
+                    'enabled': False},
+                'exporting': False},
+                )
+	branch_data =  DataPool(
+           series=
+            [{'options': {
+            'source': Branch.objects.all()},
+                'terms': [{'branch': 'branchName',
+                'placed': 'mnum'}]
+                },
+
+             ]) 
+
+	cht2 = Chart(
+            datasource = branch_data,
+            series_options =
+              [{'options':{
+                  'type': 'column',
+                  'stacking': False,
+                  'color': '#2D2F91'},
+                'terms':{
+                  'branch': [
+                    'placed']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Number of Students Placed',
+                   'style':{
+                		'display':'none'
+                	}},
+                'xAxis':{
+                	'minorGridLineColor': '#00ff00',
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+                'yAxis':{
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+               
+                'legend': {
+                    'enabled': True},
+                'credits': {
+                    'enabled': False},
+                'exporting': False},
+                )
+
+	day_data =  DataPool(
+           series=
+            [{'options': {
+            'source': DayTotal.objects.all()},
+                'terms': [{'day': 'dayNum',
+                'placed': 'num'}]
+                },
+
+             ]) 
+
+	day_cht = Chart(
+            datasource = day_data,
+            series_options =
+              [{'options':{
+                  'type': 'column',
+                  'stacking': False},
+                'terms':{
+                  'day': [
+                    'placed']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Number of Students Placed: Day-Wise'},
+               'xAxis': {
+                   'title':{'text': 'Day'}},
+               'yAxis': {
+                   'title': {'text': 'Students Placed'}},
+                'legend': {
+                    'enabled': True},
+                'credits': {
+                    'enabled': False}},)
+                   
+	return render(request,'home/branchCharts.html', 
+        {'chart_list': [cht1, cht2]})
+
+@login_required
+def dayCharts(request):
+
+	Day.objects.all().delete()
+	DayTotal.objects.all().delete()
+	students = Student.objects.all()
+	for branch in Branch.objects.all():
+		branch.num=0
+		branch.mnum=0
+		branch.save()
+	for student in students:
+
+		day = student.day
+		dobj = Day.objects.filter(dayNum=day, branch=student.branch)
+
+		programs = student.programs
+		if programs == 'BTech':
+			student.branch.num+=1
+			if dobj.count()==0:
+
+				Day.objects.create(dayNum=day, branch=student.branch)
+				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+
+			else:
+				dobj = dobj[0]
+
+			numObj = DayTotal.objects.filter(dayNum=day)
+			
+			if numObj.count()==0:
+				
+				DayTotal.objects.create(dayNum=day)
+				numObj = DayTotal.objects.get(dayNum=day)
+			
+			elif numObj.count()>=1:
+
+				count = 0;
+				numObj = DayTotal.objects.filter(dayNum=day)
+				for i in numObj:
+					count+=i.num
+
+				numObj = numObj[0]
+				numObj.num=count
+
+			dobj.num += 1
+			dobj.save()
+
+			numObj.num+=1;
+			numObj.save();
+
+		elif programs == 'MTech':
+
+			student.branch.mnum+=1
+			if dobj.count()==0:
+
+				Day.objects.create(dayNum=day, branch=student.branch)
+				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+
+			else:
+				dobj = dobj[0]
+
+			numObj = DayTotal.objects.filter(dayNum=day)
+			
+			if numObj.count()==0:
+				
+				DayTotal.objects.create(dayNum=day)
+				numObj = DayTotal.objects.get(dayNum=day)
+			
+			elif numObj.count()>=1:
+
+				count = 0;
+				numObj = DayTotal.objects.filter(dayNum=day)
+				for i in numObj:
+					count+=i.mnum
+
+				numObj = numObj[0]
+				numObj.mnum=count
+
+			dobj.mnum += 1
+			dobj.save()
+
+			numObj.mnum+=1;
+			numObj.save();
+			
+		student.branch.save()
+
+
+	day_data =  DataPool(
+           series=
+            [{'options': {
+            'source': DayTotal.objects.all()},
+                'terms': [{'day': 'dayNum',
+                'placed': 'num'}]
+                },
+
+             ])
+
+	cht1 = Chart(
+            datasource = day_data,
+            series_options =
+              [{'options':{
+                  'type': 'column',
+                  'stacking': False,
+                  'color': '#2D2F91'},
+                'terms':{
+                  'day': [
+                    'placed']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Number of Students Placed',
+                   'style':{
+                		'display':'none'
+                	}},
+                'xAxis':{
+                	'minorGridLineColor': '#00ff00',
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+                'yAxis':{
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+               
+                'legend': {
+                    'enabled': True},
+                'credits': {
+                    'enabled': False},
+                'exporting': False},
+                )
+
+	day_data =  DataPool(
+           series=
+            [{'options': {
+            'source': DayTotal.objects.all()},
+                'terms': [{'day': 'dayNum',
+                'placed': 'mnum'}]
+                },
+
+             ])
+
+	cht2 = Chart(
+            datasource = day_data,
+            series_options =
+              [{'options':{
+                  'type': 'column',
+                  'stacking': False,
+                  'color': '#2D2F91'},
+                'terms':{
+                  'day': [
+                    'placed']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Number of Students Placed',
+                   'style':{
+                		'display':'none'
+                	}},
+                'xAxis':{
+                	'minorGridLineColor': '#00ff00',
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+                'yAxis':{
+                	'title':{
+                		'text':'None',
+                		'style':{
+                		'display':'none'
+                	}},
+                	},
+               
+                'legend': {
+                    'enabled': True},
+                'credits': {
+                    'enabled': False},
+                'exporting': False},
+                )
+	return render(request,'home/DayCharts.html', 
+        {'chart_list': [cht1,cht2]})
+
+
+@login_required
+def studentsList(request):
+
+	students = Student.objects.all().order_by('roll')
+	context = {}
+	context.update(csrf(request))
+	context['students']=students
+
+	return render_to_response('home/studentsList.html',context)
+
+
+@login_required()
+def studentDetails(request, student_id):
+
+
+	student = Student.objects.get(pk=int(student_id))
+
+	if request.method == 'POST':
+		form = StudentPlacedForm(request.POST)
+		if form.is_valid():
+			programs = form.cleaned_data.get('programs')
+			placed = form.cleaned_data.get('placed')
+			company = form.cleaned_data.get('company')
+			sector = form.cleaned_data.get('sector')
+			profile = form.cleaned_data.get('profile')
+			day = form.cleaned_data.get('day')
+			slot = form.cleaned_data.get('slot')
+			student.placed = True
+			student.company = company
+			student.sector = sector
+			student.profile = profile
+			student.branch.num+=1
+			student.day=day
+			student.slot=slot
+			
+
+			dobj = Day.objects.filter(dayNum=day, branch=student.branch)
+			if programs is 'BTech':
+
+				if dobj.count()==0:
+
+					Day.objects.create(dayNum=day, branch=student.branch)
+					dobj = Day.objects.get(dayNum=day, branch=student.branch)
+
+				else:
+					dobj = dobj[0]
+
+				numObj = DayTotal.objects.filter(dayNum=day)
+				
+				if numObj.count()==0:
+					
+					DayTotal.objects.create(dayNum=day)
+					numObj = DayTotal.objects.get(dayNum=day)
+				
+				elif numObj.count()>=1:
+
+					count = 0;
+					numObj = DayTotal.objects.filter(dayNum=day)
+					for i in numObj:
+						count+=i.num
+						i.delete()
+
+					DayTotal.objects.create(dayNum=day)	
+					numObj = DayTotal.objects.get(dayNum=day)
+					numObj.num=count
+
+				dobj.num += 1
+				dobj.save()
+
+				numObj.num+=1;
+				numObj.save();
+
+			elif programs is 'MTech':
+
+				if dobj.count()==0:
+
+					Day.objects.create(dayNum=day, branch=student.branch)
+					dobj = Day.objects.get(dayNum=day, branch=student.branch)
+
+				else:
+					dobj = dobj[0]
+
+				numObj = DayTotal.objects.filter(dayNum=day)
+				
+				if numObj.count()==0:
+					
+					DayTotal.objects.create(dayNum=day)
+					numObj = DayTotal.objects.get(dayNum=day)
+				
+				elif numObj.count()>=1:
+
+					count = 0;
+					numObj = DayTotal.objects.filter(dayNum=day)
+					for i in numObj:
+						count+=i.mnum
+						i.delete()
+
+					DayTotal.objects.create(dayNum=day)	
+					numObj = DayTotal.objects.get(dayNum=day)
+					numObj.mnum=count
+
+				dobj.mnum += 1
+				dobj.save()
+
+				numObj.mnum+=1;
+				numObj.save();
+
 			student.save()
 			student.branch.save()
 	

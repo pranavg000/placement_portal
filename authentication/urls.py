@@ -10,6 +10,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     # Redirect to get token ('/authentication/gettoken/')
     path('authentication/gettoken/', views.gettoken, name='gettoken'),
+    
+    path('authentication/logout/', views.logout2, name='logout'),
 
-    path('authentication/gettoken/success/', views.success, name='success'),
 ]

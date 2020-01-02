@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'auths',
     'chartit',
     'crispy_forms',
     'authentication',

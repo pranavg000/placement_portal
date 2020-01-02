@@ -22,6 +22,7 @@ class Branch(models.Model):
 		default='CSE'
 		)
 	num = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+	mnum = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	def __str__(self):
 		return self.branchName
 
@@ -71,6 +72,7 @@ class Student(models.Model):
 class Day(models.Model):
 	dayNum=models.IntegerField(validators=[MinValueValidator(0)],default=0)
 	num = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+	mnum = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	branch=models.ForeignKey(Branch,on_delete=models.CASCADE)
 
 	def __str__(self):
@@ -80,7 +82,7 @@ class DayTotal(models.Model):
 
 	dayNum=models.IntegerField(validators=[MinValueValidator(0)],default=0)
 	num = models.IntegerField(default=0,validators=[MinValueValidator(0)])
-
+	mnum = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	
 	def __str__(self):
 		return f'{self.dayNum}-Total'

@@ -6,11 +6,14 @@ table {
 
 /* Zebra striping */
 tr:nth-of-type(odd) { 
-  background: #eee; 
+  background: #A2A3D3; 
+  }
+tr:nth-of-type(even) { 
+  background: #BBBEF2; 
   }
 
 th { 
-  background: #3498db; 
+  background: #2D2F91; 
   color: white; 
   font-weight: bold; 
   }
