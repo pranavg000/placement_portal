@@ -397,154 +397,154 @@ def studentsList(request):
 	return render_to_response('home/studentsList.html',context)
 
 
-@login_required()
-def studentDetails(request, student_id):
+# @login_required()
+# def studentDetails(request, student_id):
 
 
-	student = Student.objects.get(pk=int(student_id))
+# 	student = Student.objects.get(pk=int(student_id))
 
-	if request.method == 'POST':
-		form = StudentPlacedForm(request.POST)
-		if form.is_valid():
-			programs = form.cleaned_data.get('programs')
-			placed = form.cleaned_data.get('placed')
-			company = form.cleaned_data.get('company')
-			sector = form.cleaned_data.get('sector')
-			profile = form.cleaned_data.get('profile')
-			day = form.cleaned_data.get('day')
-			slot = form.cleaned_data.get('slot')
-			student.placed = True
-			student.company = company
-			student.sector = sector
-			student.profile = profile
-			student.branch.num+=1
-			student.day=day
-			student.slot=slot
+# 	if request.method == 'POST':
+# 		form = StudentPlacedForm(request.POST)
+# 		if form.is_valid():
+# 			programs = form.cleaned_data.get('programs')
+# 			placed = form.cleaned_data.get('placed')
+# 			company = form.cleaned_data.get('company')
+# 			sector = form.cleaned_data.get('sector')
+# 			profile = form.cleaned_data.get('profile')
+# 			day = form.cleaned_data.get('day')
+# 			slot = form.cleaned_data.get('slot')
+# 			student.placed = True
+# 			student.company = company
+# 			student.sector = sector
+# 			student.profile = profile
+# 			student.branch.num+=1
+# 			student.day=day
+# 			student.slot=slot
 			
 
-			dobj = Day.objects.filter(dayNum=day, branch=student.branch)
-			if programs is 'BTech':
+# 			dobj = Day.objects.filter(dayNum=day, branch=student.branch)
+# 			if programs is 'BTech':
 
-				if dobj.count()==0:
+# 				if dobj.count()==0:
 
-					Day.objects.create(dayNum=day, branch=student.branch)
-					dobj = Day.objects.get(dayNum=day, branch=student.branch)
+# 					Day.objects.create(dayNum=day, branch=student.branch)
+# 					dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-				else:
-					dobj = dobj[0]
+# 				else:
+# 					dobj = dobj[0]
 
-				numObj = DayTotal.objects.filter(dayNum=day)
+# 				numObj = DayTotal.objects.filter(dayNum=day)
 				
-				if numObj.count()==0:
+# 				if numObj.count()==0:
 					
-					DayTotal.objects.create(dayNum=day)
-					numObj = DayTotal.objects.get(dayNum=day)
+# 					DayTotal.objects.create(dayNum=day)
+# 					numObj = DayTotal.objects.get(dayNum=day)
 				
-				elif numObj.count()>=1:
+# 				elif numObj.count()>=1:
 
-					count = 0;
-					numObj = DayTotal.objects.filter(dayNum=day)
-					for i in numObj:
-						count+=i.num
-						i.delete()
+# 					count = 0;
+# 					numObj = DayTotal.objects.filter(dayNum=day)
+# 					for i in numObj:
+# 						count+=i.num
+# 						i.delete()
 
-					DayTotal.objects.create(dayNum=day)	
-					numObj = DayTotal.objects.get(dayNum=day)
-					numObj.num=count
+# 					DayTotal.objects.create(dayNum=day)	
+# 					numObj = DayTotal.objects.get(dayNum=day)
+# 					numObj.num=count
 
-				dobj.num += 1
-				dobj.save()
+# 				dobj.num += 1
+# 				dobj.save()
 
-				numObj.num+=1;
-				numObj.save();
+# 				numObj.num+=1;
+# 				numObj.save();
 
-			elif programs is 'MTech':
+# 			elif programs is 'MTech':
 
-				if dobj.count()==0:
+# 				if dobj.count()==0:
 
-					Day.objects.create(dayNum=day, branch=student.branch)
-					dobj = Day.objects.get(dayNum=day, branch=student.branch)
+# 					Day.objects.create(dayNum=day, branch=student.branch)
+# 					dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-				else:
-					dobj = dobj[0]
+# 				else:
+# 					dobj = dobj[0]
 
-				numObj = DayTotal.objects.filter(dayNum=day)
+# 				numObj = DayTotal.objects.filter(dayNum=day)
 				
-				if numObj.count()==0:
+# 				if numObj.count()==0:
 					
-					DayTotal.objects.create(dayNum=day)
-					numObj = DayTotal.objects.get(dayNum=day)
+# 					DayTotal.objects.create(dayNum=day)
+# 					numObj = DayTotal.objects.get(dayNum=day)
 				
-				elif numObj.count()>=1:
+# 				elif numObj.count()>=1:
 
-					count = 0;
-					numObj = DayTotal.objects.filter(dayNum=day)
-					for i in numObj:
-						count+=i.mnum
-						i.delete()
+# 					count = 0;
+# 					numObj = DayTotal.objects.filter(dayNum=day)
+# 					for i in numObj:
+# 						count+=i.mnum
+# 						i.delete()
 
-					DayTotal.objects.create(dayNum=day)	
-					numObj = DayTotal.objects.get(dayNum=day)
-					numObj.mnum=count
+# 					DayTotal.objects.create(dayNum=day)	
+# 					numObj = DayTotal.objects.get(dayNum=day)
+# 					numObj.mnum=count
 
-				dobj.mnum += 1
-				dobj.save()
+# 				dobj.mnum += 1
+# 				dobj.save()
 
-				numObj.mnum+=1;
-				numObj.save();
+# 				numObj.mnum+=1;
+# 				numObj.save();
 
-			student.save()
-			student.branch.save()
+# 			student.save()
+# 			student.branch.save()
 	
-		return redirect('home:students')
-	else:
-		data = {
-		'placed':True,
-		'company':student.company,
-			'sector':student.sector,
-			'profile':student.profile,	
-			'day':student.day,
-			'slot':student.slot}
-		form = StudentPlacedForm(initial=data)
-		if not student.placed:
+# 		return redirect('home:students')
+# 	else:
+# 		data = {
+# 		'placed':True,
+# 		'company':student.company,
+# 			'sector':student.sector,
+# 			'profile':student.profile,	
+# 			'day':student.day,
+# 			'slot':student.slot}
+# 		form = StudentPlacedForm(initial=data)
+# 		if not student.placed:
 
-			context = {
-			'form':form,
-			'student': student,
-			}
-		else:
+# 			context = {
+# 			'form':form,
+# 			'student': student,
+# 			}
+# 		else:
 
-			 context = {
-			'form':form,
-			'student': student,
-			}
+# 			 context = {
+# 			'form':form,
+# 			'student': student,
+# 			}
 
-		return render(request, 'home/studentDetails.html', context)
+# 		return render(request, 'home/studentDetails.html', context)
+
+# @login_required
+# def changestatus(request):
+# 	if request.method == 'POST':
+# 		id = request.POST['student_id']
+# 		student = Student.objects.get(id=id)
+# 		student.placed = False
+
+# 		dobj = Day.objects.get(dayNum=student.day, branch=student.branch)
+	
+# 		student.branch.num-=1
+
+# 		dobj.num -= 1
+# 		dobj.save()
+		
+# 		numObj = DayTotal.objects.get(dayNum=student.day)
+# 		numObj.num-=1;
+
+# 		numObj.save();
+# 		student.branch.save()
+# 		student.save()
+
+# 	return redirect('home:studentDetails', student_id= id)
 
 @login_required
-def changestatus(request):
-	if request.method == 'POST':
-		id = request.POST['student_id']
-		student = Student.objects.get(id=id)
-		student.placed = False
-
-		dobj = Day.objects.get(dayNum=student.day, branch=student.branch)
-	
-		student.branch.num-=1
-
-		dobj.num -= 1
-		dobj.save()
-		
-		numObj = DayTotal.objects.get(dayNum=student.day)
-		numObj.num-=1;
-
-		numObj.save();
-		student.branch.save()
-		student.save()
-
-	return redirect('home:studentDetails', student_id= id)
-
-
 def search(request):
 	if request.method=="POST":
 		search_text=request.POST['search_text']
@@ -559,7 +559,7 @@ def search(request):
 		students=[]
 
 	return render(request,'home/ajax_search.html',{'students':students})
-
+@login_required
 def showStudent(request):
 	
 	context={}
@@ -567,7 +567,7 @@ def showStudent(request):
 	context['students']=Student.objects.all().order_by('roll')
 	return render_to_response('home/showStudent.html',context)
 
-
+@login_required
 def searchStudent(request):
 	if request.method=="POST":
 		search_text=request.POST['search_text']
@@ -600,7 +600,7 @@ def searchStudent(request):
 	return render(request,'home/ajax_searchStudent.html',{'students':students})
 
 
-
+@login_required
 def searchStudentList(request):
 	if request.method=="POST":
 		search_text=request.POST['search_text']
@@ -632,7 +632,7 @@ def searchStudentList(request):
 
 	return render(request,'home/ajax_search.html',{'students':students})
 
-
+@login_required
 def branchlist(request):
 
 	if request.method == "POST":
@@ -661,7 +661,7 @@ def branchlist(request):
 	return render(request, 'home/ajax_search.html', {'students': students})
 
 
-
+@login_required
 def branchlistshow(request):
 
 	if request.method == "POST":
