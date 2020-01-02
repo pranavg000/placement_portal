@@ -16,7 +16,7 @@ def charts(request):
 
 	Day.objects.all().delete()
 	DayTotal.objects.all().delete()
-	students = Student.objects.all()
+	students = Student.objects.filter(placed=True)
 	for branch in Branch.objects.all():
 		branch.num=0
 		branch.mnum=0
@@ -100,7 +100,7 @@ def charts(request):
             [{'options': {
             'source': Branch.objects.all()},
                 'terms': [{'branch': 'branchName',
-                'placed': 'num'}]
+                'BTech-Placed': 'num'}]
                 },
 
              ]) 
@@ -114,7 +114,7 @@ def charts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'branch': [
-                    'placed']
+                    'BTech-Placed']
                   }}],
             chart_options =
               {'title': {
@@ -149,7 +149,7 @@ def charts(request):
             [{'options': {
             'source': Branch.objects.all()},
                 'terms': [{'branch': 'branchName',
-                'placed': 'mnum'}]
+                'MTech-Placed': 'mnum'}]
                 },
 
              ]) 
@@ -163,7 +163,7 @@ def charts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'branch': [
-                    'placed']
+                    'MTech-Placed']
                   }}],
             chart_options =
               {'title': {
@@ -193,38 +193,6 @@ def charts(request):
                     'enabled': False},
                 'exporting': False},
                 )
-
-	day_data =  DataPool(
-           series=
-            [{'options': {
-            'source': DayTotal.objects.all()},
-                'terms': [{'day': 'dayNum',
-                'placed': 'num'}]
-                },
-
-             ]) 
-
-	day_cht = Chart(
-            datasource = day_data,
-            series_options =
-              [{'options':{
-                  'type': 'column',
-                  'stacking': False},
-                'terms':{
-                  'day': [
-                    'placed']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Number of Students Placed: Day-Wise'},
-               'xAxis': {
-                   'title':{'text': 'Day'}},
-               'yAxis': {
-                   'title': {'text': 'Students Placed'}},
-                'legend': {
-                    'enabled': True},
-                'credits': {
-                    'enabled': False}},)
                    
 	return render(request,'home/branchCharts.html', 
         {'chart_list': [cht1, cht2]})
@@ -320,7 +288,7 @@ def dayCharts(request):
             [{'options': {
             'source': DayTotal.objects.all()},
                 'terms': [{'day': 'dayNum',
-                'placed': 'num'}]
+                'BTech-Placed': 'num'}]
                 },
 
              ])
@@ -334,7 +302,7 @@ def dayCharts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'day': [
-                    'placed']
+                    'BTech-Placed']
                   }}],
             chart_options =
               {'title': {
@@ -370,7 +338,7 @@ def dayCharts(request):
             [{'options': {
             'source': DayTotal.objects.all()},
                 'terms': [{'day': 'dayNum',
-                'placed': 'mnum'}]
+                'MTech-Placed': 'mnum'}]
                 },
 
              ])
@@ -384,7 +352,7 @@ def dayCharts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'day': [
-                    'placed']
+                    'MTech-Placed']
                   }}],
             chart_options =
               {'title': {
