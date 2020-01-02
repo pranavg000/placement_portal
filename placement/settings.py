@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'auths',
+    'chartit',
     'crispy_forms',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -126,4 +127,4 @@ STATICFILES_DIRS=[
 ]
 
 LOGIN_REDIRECT_URL = 'home:index'
-LOGIN_URL = 'auths:login'
+LOGIN_URL = 'authentication:home'
