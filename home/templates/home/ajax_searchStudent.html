@@ -1,7 +1,4 @@
-
-
-
-	{% if students.count > 0 %}
+{% if students.count > 0 %}
 
 <table>
   <thead>
@@ -13,9 +10,6 @@
     <th>Placed</th>
     <th>Company</th>
     <th>Day</th>
-    <th>Slot</th>
-    <th>Sector</th>
-    <th>Profile</th>
   </tr>
   </thead>
   <tbody>
@@ -30,16 +24,10 @@
       <td> {{ "Not Placed" }}</td>
       <td> {{ "-" }}</td>
       <td> {{ "-" }}</td>
-      <td> {{ "-" }}</td>
-      <td> {{ "-"}}</td>
-      <td> {{ "-" }}</td>
       {% else %}
       <td> {{ "Placed" }}</td>
       <td> {{ student.company }}</td>
       <td> {{ student.day }}</td>
-      <td> {{ student.slot }}</td>
-      <td> {{ student.sector}}</td>
-      <td> {{ student.profile }}</td>
     {% endif %}
     </tr>
    {% endfor %}
