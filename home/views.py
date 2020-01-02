@@ -100,7 +100,7 @@ def charts(request):
             [{'options': {
             'source': Branch.objects.all()},
                 'terms': [{'branch': 'branchName',
-                'BTech-Placed': 'num'}]
+                'Bachelors': 'num'}]
                 },
 
              ]) 
@@ -114,7 +114,7 @@ def charts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'branch': [
-                    'BTech-Placed']
+                    'Bachelors']
                   }}],
             chart_options =
               {'title': {
@@ -149,7 +149,7 @@ def charts(request):
             [{'options': {
             'source': Branch.objects.all()},
                 'terms': [{'branch': 'branchName',
-                'MTech-Placed': 'mnum'}]
+                'Masters': 'mnum'}]
                 },
 
              ]) 
@@ -163,7 +163,7 @@ def charts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'branch': [
-                    'MTech-Placed']
+                    'Masters']
                   }}],
             chart_options =
               {'title': {
@@ -288,7 +288,7 @@ def dayCharts(request):
             [{'options': {
             'source': DayTotal.objects.all()},
                 'terms': [{'day': 'dayNum',
-                'BTech-Placed': 'num'}]
+                'Bachelors': 'num'}]
                 },
 
              ])
@@ -302,7 +302,7 @@ def dayCharts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'day': [
-                    'BTech-Placed']
+                    'Bachelors']
                   }}],
             chart_options =
               {'title': {
@@ -338,7 +338,7 @@ def dayCharts(request):
             [{'options': {
             'source': DayTotal.objects.all()},
                 'terms': [{'day': 'dayNum',
-                'MTech-Placed': 'mnum'}]
+                'Masters': 'mnum'}]
                 },
 
              ])
@@ -352,7 +352,7 @@ def dayCharts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'day': [
-                    'MTech-Placed']
+                    'Masters']
                   }}],
             chart_options =
               {'title': {
