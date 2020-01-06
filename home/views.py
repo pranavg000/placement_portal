@@ -27,7 +27,7 @@ def charts(request):
 		dobj = Day.objects.filter(dayNum=day, branch=student.branch)
 
 		programs = student.programs
-		if programs == 'BTech':
+		if programs == 'B.Tech' or programs == 'BTech':
 			student.branch.num+=1
 			if dobj.count()==0:
 
@@ -60,7 +60,7 @@ def charts(request):
 			numObj.num+=1;
 			numObj.save();
 
-		elif programs == 'MTech':
+		elif programs == 'M.Tech' or programs == 'MTech':
 
 			student.branch.mnum+=1
 			if dobj.count()==0:
@@ -213,7 +213,7 @@ def dayCharts(request):
 		dobj = Day.objects.filter(dayNum=day, branch=student.branch)
 
 		programs = student.programs
-		if programs == 'BTech':
+		if programs == 'B.Tech' or programs == 'BTech':
 			student.branch.num+=1
 			if dobj.count()==0:
 
@@ -246,7 +246,7 @@ def dayCharts(request):
 			numObj.num+=1;
 			numObj.save();
 
-		elif programs == 'MTech':
+		elif programs == 'M.Tech' or programs == 'MTech':
 
 			student.branch.mnum+=1
 			if dobj.count()==0:
@@ -561,11 +561,59 @@ def search(request):
 	return render(request,'home/ajax_search.html',{'students':students})
 @login_required
 def showStudent(request):
-	
+
+	context={}
+	context.update(csrf(request))
+	context['students']=Student.objects.all().order_by('day')
+	return render_to_response('home/showStudent.html',context)
+
+@login_required
+def showStudentByName(request):
+
+	context={}
+	context.update(csrf(request))
+	context['students']=Student.objects.all().order_by('name')
+	return render_to_response('home/showStudent.html',context)
+
+@login_required
+def showStudentByProgram(request):
+
+	context={}
+	context.update(csrf(request))
+	context['students']=Student.objects.all().order_by('programs')
+	return render_to_response('home/showStudent.html',context)
+
+@login_required
+def showStudentByBranch(request):
+
+	context={}
+	context.update(csrf(request))
+	context['students']=Student.objects.all().order_by('branch')
+	return render_to_response('home/showStudent.html',context)
+
+@login_required
+def showStudentByRoll(request):
+
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('roll')
 	return render_to_response('home/showStudent.html',context)
+
+@login_required
+def showStudentByPlaced(request):
+
+	context={}
+	context.update(csrf(request))
+	context['students']=Student.objects.all().order_by('placed')
+	return render_to_response('home/showStudent.html',context)
+
+@login_required
+def showStudentByCompany(request):
+
+	context={}
+	context.update(csrf(request))
+	context['students']=Student.objects.all().order_by('company')
+	return render_to_response('home/showStudent.html',context)	
 
 @login_required
 def searchStudent(request):

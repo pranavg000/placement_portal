@@ -33,10 +33,10 @@ class Student(models.Model):
 	roll=models.CharField(max_length=50, unique= True)
 
 	PROGRAM_CHOICES = [
-        ('BTech', 'Bachelor of Technology'),
-        ('BDes', 'Bachelor of Design'),
-        ('MTech', 'Master of Technology'),
-        ('MDes', 'Master of Design'),
+        ('B.Tech', 'Bachelor of Technology'),
+        ('B.Des', 'Bachelor of Design'),
+        ('M.Tech', 'Master of Technology'),
+        ('M.Des', 'Master of Design'),
     ]
 
 	programs = models.CharField(
