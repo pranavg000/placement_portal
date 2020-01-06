@@ -14,86 +14,86 @@ def index(request):
 @login_required
 def charts(request):
 
-	Day.objects.all().delete()
-	DayTotal.objects.all().delete()
-	students = Student.objects.filter(placed=True)
-	for branch in Branch.objects.all():
-		branch.num=0
-		branch.mnum=0
-		branch.save()
-	for student in students:
+	# Day.objects.all().delete()
+	# DayTotal.objects.all().delete()
+	# students = Student.objects.filter(placed=True)
+	# for branch in Branch.objects.all():
+	# 	branch.num=0
+	# 	branch.mnum=0
+	# 	branch.save()
+	# for student in students:
 
-		day = student.day
-		dobj = Day.objects.filter(dayNum=day, branch=student.branch)
+	# 	day = student.day
+	# 	dobj = Day.objects.filter(dayNum=day, branch=student.branch)
 
-		programs = student.programs
-		if programs == 'B.Tech' or programs == 'BTech':
-			student.branch.num+=1
-			if dobj.count()==0:
+	# 	programs = student.programs
+	# 	if programs == 'B.Tech' or programs == 'BTech':
+	# 		student.branch.num+=1
+	# 		if dobj.count()==0:
 
-				Day.objects.create(dayNum=day, branch=student.branch)
-				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+	# 			Day.objects.create(dayNum=day, branch=student.branch)
+	# 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-			else:
-				dobj = dobj[0]
+	# 		else:
+	# 			dobj = dobj[0]
 
-			numObj = DayTotal.objects.filter(dayNum=day)
+	# 		numObj = DayTotal.objects.filter(dayNum=day)
 			
-			if numObj.count()==0:
+	# 		if numObj.count()==0:
 				
-				DayTotal.objects.create(dayNum=day)
-				numObj = DayTotal.objects.get(dayNum=day)
+	# 			DayTotal.objects.create(dayNum=day)
+	# 			numObj = DayTotal.objects.get(dayNum=day)
 			
-			elif numObj.count()>=1:
+	# 		elif numObj.count()>=1:
 
-				count = 0;
-				numObj = DayTotal.objects.filter(dayNum=day)
-				for i in numObj:
-					count+=i.num
+	# 			count = 0;
+	# 			numObj = DayTotal.objects.filter(dayNum=day)
+	# 			for i in numObj:
+	# 				count+=i.num
 
-				numObj = numObj[0]
-				numObj.num=count
+	# 			numObj = numObj[0]
+	# 			numObj.num=count
 
-			dobj.num += 1
-			dobj.save()
+	# 		dobj.num += 1
+	# 		dobj.save()
 
-			numObj.num+=1;
-			numObj.save();
+	# 		numObj.num+=1;
+	# 		numObj.save();
 
-		elif programs == 'M.Tech' or programs == 'MTech':
+	# 	elif programs == 'M.Tech' or programs == 'MTech':
 
-			student.branch.mnum+=1
-			if dobj.count()==0:
+	# 		student.branch.mnum+=1
+	# 		if dobj.count()==0:
 
-				Day.objects.create(dayNum=day, branch=student.branch)
-				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+	# 			Day.objects.create(dayNum=day, branch=student.branch)
+	# 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-			else:
-				dobj = dobj[0]
+	# 		else:
+	# 			dobj = dobj[0]
 
-			numObj = DayTotal.objects.filter(dayNum=day)
+	# 		numObj = DayTotal.objects.filter(dayNum=day)
 			
-			if numObj.count()==0:
+	# 		if numObj.count()==0:
 				
-				DayTotal.objects.create(dayNum=day)
-				numObj = DayTotal.objects.get(dayNum=day)
+	# 			DayTotal.objects.create(dayNum=day)
+	# 			numObj = DayTotal.objects.get(dayNum=day)
 			
-			elif numObj.count()>=1:
+	# 		elif numObj.count()>=1:
 
-				count = 0;
-				numObj = DayTotal.objects.filter(dayNum=day)
-				for i in numObj:
-					count+=i.mnum
+	# 			count = 0;
+	# 			numObj = DayTotal.objects.filter(dayNum=day)
+	# 			for i in numObj:
+	# 				count+=i.mnum
 
-				numObj = numObj[0]
-				numObj.mnum=count
+	# 			numObj = numObj[0]
+	# 			numObj.mnum=count
 
-			dobj.mnum += 1
-			dobj.save()
+	# 		dobj.mnum += 1
+	# 		dobj.save()
 
-			numObj.mnum+=1;
-			numObj.save();
-		student.branch.save()
+	# 		numObj.mnum+=1;
+	# 		numObj.save();
+	# 	student.branch.save()
 
 	branch_data =  DataPool(
            series=
@@ -200,87 +200,87 @@ def charts(request):
 @login_required
 def dayCharts(request):
 
-	Day.objects.all().delete()
-	DayTotal.objects.all().delete()
-	students = Student.objects.all()
-	for branch in Branch.objects.all():
-		branch.num=0
-		branch.mnum=0
-		branch.save()
-	for student in students:
+	# Day.objects.all().delete()
+	# DayTotal.objects.all().delete()
+	# students = Student.objects.all()
+	# for branch in Branch.objects.all():
+	# 	branch.num=0
+	# 	branch.mnum=0
+	# 	branch.save()
+	# for student in students:
 
-		day = student.day
-		dobj = Day.objects.filter(dayNum=day, branch=student.branch)
+	# 	day = student.day
+	# 	dobj = Day.objects.filter(dayNum=day, branch=student.branch)
 
-		programs = student.programs
-		if programs == 'B.Tech' or programs == 'BTech':
-			student.branch.num+=1
-			if dobj.count()==0:
+	# 	programs = student.programs
+	# 	if programs == 'B.Tech' or programs == 'BTech':
+	# 		student.branch.num+=1
+	# 		if dobj.count()==0:
 
-				Day.objects.create(dayNum=day, branch=student.branch)
-				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+	# 			Day.objects.create(dayNum=day, branch=student.branch)
+	# 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-			else:
-				dobj = dobj[0]
+	# 		else:
+	# 			dobj = dobj[0]
 
-			numObj = DayTotal.objects.filter(dayNum=day)
+	# 		numObj = DayTotal.objects.filter(dayNum=day)
 			
-			if numObj.count()==0:
+	# 		if numObj.count()==0:
 				
-				DayTotal.objects.create(dayNum=day)
-				numObj = DayTotal.objects.get(dayNum=day)
+	# 			DayTotal.objects.create(dayNum=day)
+	# 			numObj = DayTotal.objects.get(dayNum=day)
 			
-			elif numObj.count()>=1:
+	# 		elif numObj.count()>=1:
 
-				count = 0;
-				numObj = DayTotal.objects.filter(dayNum=day)
-				for i in numObj:
-					count+=i.num
+	# 			count = 0;
+	# 			numObj = DayTotal.objects.filter(dayNum=day)
+	# 			for i in numObj:
+	# 				count+=i.num
 
-				numObj = numObj[0]
-				numObj.num=count
+	# 			numObj = numObj[0]
+	# 			numObj.num=count
 
-			dobj.num += 1
-			dobj.save()
+	# 		dobj.num += 1
+	# 		dobj.save()
 
-			numObj.num+=1;
-			numObj.save();
+	# 		numObj.num+=1;
+	# 		numObj.save();
 
-		elif programs == 'M.Tech' or programs == 'MTech':
+	# 	elif programs == 'M.Tech' or programs == 'MTech':
 
-			student.branch.mnum+=1
-			if dobj.count()==0:
+	# 		student.branch.mnum+=1
+	# 		if dobj.count()==0:
 
-				Day.objects.create(dayNum=day, branch=student.branch)
-				dobj = Day.objects.get(dayNum=day, branch=student.branch)
+	# 			Day.objects.create(dayNum=day, branch=student.branch)
+	# 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-			else:
-				dobj = dobj[0]
+	# 		else:
+	# 			dobj = dobj[0]
 
-			numObj = DayTotal.objects.filter(dayNum=day)
+	# 		numObj = DayTotal.objects.filter(dayNum=day)
 			
-			if numObj.count()==0:
+	# 		if numObj.count()==0:
 				
-				DayTotal.objects.create(dayNum=day)
-				numObj = DayTotal.objects.get(dayNum=day)
+	# 			DayTotal.objects.create(dayNum=day)
+	# 			numObj = DayTotal.objects.get(dayNum=day)
 			
-			elif numObj.count()>=1:
+	# 		elif numObj.count()>=1:
 
-				count = 0;
-				numObj = DayTotal.objects.filter(dayNum=day)
-				for i in numObj:
-					count+=i.mnum
+	# 			count = 0;
+	# 			numObj = DayTotal.objects.filter(dayNum=day)
+	# 			for i in numObj:
+	# 				count+=i.mnum
 
-				numObj = numObj[0]
-				numObj.mnum=count
+	# 			numObj = numObj[0]
+	# 			numObj.mnum=count
 
-			dobj.mnum += 1
-			dobj.save()
+	# 		dobj.mnum += 1
+	# 		dobj.save()
 
-			numObj.mnum+=1;
-			numObj.save();
+	# 		numObj.mnum+=1;
+	# 		numObj.save();
 			
-		student.branch.save()
+	# 	student.branch.save()
 
 
 	day_data =  DataPool(
@@ -423,7 +423,7 @@ def studentsList(request):
 			
 
 # 			dobj = Day.objects.filter(dayNum=day, branch=student.branch)
-# 			if programs is 'BTech':
+# 			if programs is 'B.Tech' or programs is 'BTech':
 
 # 				if dobj.count()==0:
 

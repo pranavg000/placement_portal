@@ -4,13 +4,41 @@
 <table>
   <thead>
   <tr class="table-headers">
-    <th>Name</th>
-    <th>Program</th>
-    <th>Branch</th>
-    <th>Roll No.</th>
-    <th>Placed</th>
-    <th>Company</th>
-    <th>Day</th>
+    <th>Name
+      <a href="{% url 'home:showStudentByName'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 30px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Program
+      <a href="{% url 'home:showStudentByProgram'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Branch
+      <a href="{% url 'home:showStudentByBranch'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Roll No.
+      <a href="{% url 'home:showStudentByRoll'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Placed
+      <a href="{% url 'home:showStudentByPlaced'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Company
+      <a href="{% url 'home:showStudentByCompany'%}" style="color:white">
+      <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 30px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Day
+      <a href="{% url 'home:showStudent'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
   </tr>
   </thead>
   <tbody>

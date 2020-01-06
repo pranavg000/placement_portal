@@ -20,9 +20,21 @@
       color:    #fff;
       padding-left: 4px;
   }
+  input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
   </style>
 	<title>Students</title>
-
+    <script>
+      urlajaxsearchStudent = "{% url 'home:searchStudent' %}"
+      urlsearchStudentList = "{% url 'home:searchStudentList' %}"
+      urlsearch = "{% url 'home:search' %}"
+      urlbranchlist = "{% url 'home:branchlist' %}"
+      urlbranchlistshow = "{% url 'home:branchlistshow' %}"
+    </script>
      <script src="{% static 'home/jquery-3.4.1.js' %}"></script>
      <script src="{% static 'home/ajaxStudentshow.js' %}"></script>
      <script src="{% static 'home/branchcheckshow.js' %}"></script>
@@ -118,13 +130,41 @@
 <table id="myTable">
   <thead>
   <tr class="table-headers">
-    <th><a href="{% url 'home:showStudentByName'%}" style="color:white">Name</a></th>
-    <th><a href="{% url 'home:showStudentByProgram'%}" style="color:white">Program</th>
-    <th><a href="{% url 'home:showStudentByBranch'%}" style="color:white">Branch</th>
-    <th><a href="{% url 'home:showStudentByRoll'%}" style="color:white">Roll No.</th>
-    <th><a href="{% url 'home:showStudentByPlaced'%}" style="color:white">Placed</th>
-    <th><a href="{% url 'home:showStudentByCompany'%}" style="color:white">Company</th>
-    <th><a href="{% url 'home:showStudent'%}" style="color:white">Day</th>
+    <th>Name
+      <a href="{% url 'home:showStudentByName'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 30px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Program
+      <a href="{% url 'home:showStudentByProgram'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Branch
+      <a href="{% url 'home:showStudentByBranch'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Roll No.
+      <a href="{% url 'home:showStudentByRoll'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Placed
+      <a href="{% url 'home:showStudentByPlaced'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Company
+      <a href="{% url 'home:showStudentByCompany'%}" style="color:white">
+      <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 30px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
+    <th>Day
+      <a href="{% url 'home:showStudent'%}" style="color:white">
+        <i style="float: right; margin-top:5px;font-size: 15px; margin-right: 10px;"class="fa fa-sort" aria-hidden="true"></i>
+      </a>
+    </th>
     <!--<th>Slot</th>
     <th>Sector</th>
     <th>Profile</th>-->

@@ -9,7 +9,7 @@ $(document).change(function() {
     $('#searchStudent').val('');
             $.ajax({
                 type: "POST",
-                url: "branchlistshow",
+                url: urlbranchlistshow,
                 data: {
                     'val': valueSelected,
                     'place':valuePSelected,

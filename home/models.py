@@ -42,7 +42,7 @@ class Student(models.Model):
 	programs = models.CharField(
 		max_length=5,
         choices=PROGRAM_CHOICES,
-        default='BTech',
+        default='B.Tech',
 	)	
 	branch = models.ForeignKey(Branch,on_delete=models.CASCADE)
 	day=models.IntegerField(validators=[MaxValueValidator(10),MinValueValidator(0)],default=0, blank=True)
