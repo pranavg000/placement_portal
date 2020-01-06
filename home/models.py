@@ -13,6 +13,11 @@ BRANCH_CHOICES = [
 	('EP' , 'Engineering Physics'),
 	('CST','Chemical Science and Technology'),
 	('BT','Biotechnology'),
+	('Physics','Physics'),
+	('Chemistry','Chemistry'),
+	('Mathematics','Mathematics'),
+	('Design','Design'),
+	('Others','Others'),
 ]
 
 class Branch(models.Model):
@@ -37,6 +42,9 @@ class Student(models.Model):
         ('B.Des', 'Bachelor of Design'),
         ('M.Tech', 'Master of Technology'),
         ('M.Des', 'Master of Design'),
+        ('M.Sc', 'Master of Science'),
+        ('Phd', 'PHD'),
+        ('Others', 'Others'),
     ]
 
 	programs = models.CharField(

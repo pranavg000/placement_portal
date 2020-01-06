@@ -16,7 +16,7 @@ def charts(request):
 
 	# Day.objects.all().delete()
 	# DayTotal.objects.all().delete()
-	# students = Student.objects.filter(placed=True)
+	# students = Student.objects.all()
 	# for branch in Branch.objects.all():
 	# 	branch.num=0
 	# 	branch.mnum=0
@@ -25,9 +25,9 @@ def charts(request):
 
 	# 	day = student.day
 	# 	dobj = Day.objects.filter(dayNum=day, branch=student.branch)
-
+	# 	print(student.name, student.roll)
 	# 	programs = student.programs
-	# 	if programs == 'B.Tech' or programs == 'BTech':
+	# 	if programs == 'B.Tech' or programs == 'BTech' or programs == 'B.Des':
 	# 		student.branch.num+=1
 	# 		if dobj.count()==0:
 
@@ -60,8 +60,8 @@ def charts(request):
 	# 		numObj.num+=1;
 	# 		numObj.save();
 
-	# 	elif programs == 'M.Tech' or programs == 'MTech':
-
+	# 	elif programs == 'M.Tech' or programs == 'MTech' or programs == 'M.Des' or programs == 'M.Sc' or programs == 'Others':
+			
 	# 		student.branch.mnum+=1
 	# 		if dobj.count()==0:
 
@@ -95,10 +95,14 @@ def charts(request):
 	# 		numObj.save();
 	# 	student.branch.save()
 
+	names_to_exclude = ['Mathematics', 'Physics', 'Chemistry', 'Others'] 
+	
+
+
 	branch_data =  DataPool(
            series=
             [{'options': {
-            'source': Branch.objects.all()},
+            'source': Branch.objects.exclude(branchName__in=names_to_exclude)},
                 'terms': [{'branch': 'branchName',
                 'Bachelors': 'num'}]
                 },
@@ -144,6 +148,8 @@ def charts(request):
                     'enabled': False},
                 'exporting': False},
                 )
+
+
 	branch_data =  DataPool(
            series=
             [{'options': {
@@ -549,22 +555,27 @@ def search(request):
 	if request.method=="POST":
 		search_text=request.POST['search_text']
 		print(search_text)
-		students = Student.objects.filter(name__contains = search_text)
-		students |= Student.objects.filter(company__contains = search_text)
-		students |= Student.objects.filter(branch__branchName__contains = search_text)
-		students |= Student.objects.filter(roll__contains = search_text)
+		students = Student.objects.filter(name__icontains = search_text)
+		students |= Student.objects.filter(company__icontains = search_text)
+		students |= Student.objects.filter(branch__branchName__icontains = search_text)
+		students |= Student.objects.filter(roll__icontains = search_text)
+		students |= Student.objects.filter(profile__icontains = search_text)
 
+		students = students.order_by('name')
+		
 	else:
 		search_text=" "
 		students=[]
 
 	return render(request,'home/ajax_search.html',{'students':students})
+
+
 @login_required
 def showStudent(request):
 
 	context={}
 	context.update(csrf(request))
-	context['students']=Student.objects.all().order_by('day')
+	context['students']=Student.objects.all().order_by('name')
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -622,11 +633,13 @@ def searchStudent(request):
 		val = request.POST['val']
 		place=request.POST['place']
 		
-		students = Student.objects.filter(name__contains = search_text)
-		students |= Student.objects.filter(company__contains = search_text)
-		students |= Student.objects.filter(branch__branchName__contains = search_text)
-		students |= Student.objects.filter(roll__contains = search_text)
-
+		students = Student.objects.filter(name__icontains = search_text)
+		students |= Student.objects.filter(company__icontains = search_text)
+		students |= Student.objects.filter(branch__branchName__icontains = search_text)
+		students |= Student.objects.filter(roll__icontains = search_text)
+		students |= Student.objects.filter(profile__icontains = search_text)
+		print(search_text)
+		students = students.order_by('name')
 		if val:
 			if place == "True":
 				students = students.filter(branch__branchName=val,placed=True)
@@ -655,10 +668,13 @@ def searchStudentList(request):
 		val = request.POST['val']
 		place=request.POST['place']
 
-		students = Student.objects.filter(name__contains = search_text)
-		students |= Student.objects.filter(company__contains = search_text)
-		students |= Student.objects.filter(branch__branchName__contains = search_text)
-		students |= Student.objects.filter(roll__contains = search_text)
+		students = Student.objects.filter(name__icontains = search_text)
+		students |= Student.objects.filter(company__icontains = search_text)
+		students |= Student.objects.filter(branch__branchName__icontains = search_text)
+		students |= Student.objects.filter(roll__icontains = search_text)
+		students |= Student.objects.filter(profile__icontains = search_text)
+
+		students = students.order_by('name')
 
 		if val:
 			if place == "True":

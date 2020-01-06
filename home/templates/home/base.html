@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title></title>
+    <link rel = "icon" href =  "{% static 'images/iitg.jpg' %}" type = "image/x-icon"> 
    <!-- jQuery CDN -->
     <script
     src="https://code.jquery.com/jquery-1.12.4.min.js"
@@ -40,12 +42,12 @@
     height: 31.6px;
     position: relative;
     text-align:center;"> 
-    <div style="background-color:#2D2F91; width:15%; margin:0px; padding:1px 5px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:charts' %}">Dept. Wise</a></div>
-    <div style="background-color:#2D2F91; width:15%; margin:0px; padding:1px 5px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:dayCharts' %}">Day Wise</a></div>
-    <div style="background-color:#2D2F91; width:15%; margin:0px; padding:1px 5px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:showStudent' %}">List View</a></div>
+    <div style="background-color:#2D2F91; width:15%; margin:0px; padding:5px 5px 1px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:charts' %}">Dept. Wise</a></div>
+    <div style="background-color:#2D2F91; width:15%; margin:0px; padding:5px 5px 1px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:dayCharts' %}">Day Wise</a></div>
+    <div style="background-color:#2D2F91; width:15%; margin:0px; padding:5px 5px 1px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:showStudent' %}">List View</a></div>
 </div>
 
-<body>
+<body style = "font-family:Arial, Helvetica, sans-serif;">
     {% block content %}
     {% endblock %}
 </body>

@@ -1,12 +1,13 @@
 $(function() {
 
-    $('#searchStudent').keyup(function() {
+    $('#searchStudent').keyup(function(e) {
+
     var optionSelected = $('#select').find("option:selected");
     var valueSelected  = optionSelected.val();
 
     var PSelected = $('#selectP').find("option:selected");
     var valuePSelected  = PSelected.val();
-
+    if (($('#searchStudent').val() != '') || e.which === 8)
         $.ajax({
             type: "POST",
             url: urlajaxsearchStudent,

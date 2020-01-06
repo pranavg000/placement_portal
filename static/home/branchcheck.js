@@ -1,4 +1,5 @@
-$(document).change(function() {
+$(function() {
+$('#select, #selectP').change(function() {
     var optionSelected = $('#select').find("option:selected");
     var valueSelected  = optionSelected.val();
 
@@ -19,7 +20,7 @@ $(document).change(function() {
                 dataType: 'html'
             });
     });
-
+});
 function searchSuccess(data)
 {
    var lis = document.getElementById("mainlist");
