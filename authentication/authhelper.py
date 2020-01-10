@@ -6,9 +6,8 @@ import requests
 
 
 # Client ID and secret
-client_id = 'cannot be disclosed'
-client_secret = 'cnnot be disclosed'
-
+client_id = 'secret'
+client_secret = 'secret'
 # Constant strings for OAuth2 flow
 # The OAuth authority
 authority = 'https://login.microsoftonline.com'

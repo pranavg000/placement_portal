@@ -15,13 +15,74 @@
       
     {% block listView %}
     {% endblock %}
-    
+    <style>
+       
+      body {
+        /*padding-bottom: 100px;*/
+        max-width: 100%;
+        margin:0;
+      }
+      html, body {
+      overflow-x:hidden;
+      height:100%;
+
+    }
+      
+    .container {
+      min-height: 100%;
+    }
+      #main {
+        
+        padding-bottom: 100px;
+      }
+     
+    footer {
+        width:100%; 
+        height: 100px;
+        background-color:#FFF; 
+        color:#000;
+        -webkit-box-shadow: 0px -1px 5px 0px rgba(100,100,100,0.75);
+        -moz-box-shadow: 0px -1px 5px 0px rgba(100,100,100,0.75);
+        box-shadow: 0px -1px 5px 0px rgba(100,100,100,0.75);
+        line-height: 1.6;
+        position: relative;
+        margin-top: -100px;
+        clear: both;
+      }
+      .link-spanner{
+        position:absolute; 
+        width:100%;
+        height:100%;
+        top:0;
+        left: 0;
+        z-index: 1;
+      }   
+
+      .hovr {
+        background-color:#6A62CC; 
+        width:15%; 
+        margin:0px; 
+        padding:5px 5px 1px; 
+        cursor: pointer; 
+        position:relative;
+      }
+
+      .link-active {
+        background-color: #2D2F91;
+      }
+    </style>
 </head>
-<div style="min-height:75px; width:100%; position:relative">
+
+<body style = "font-family:Arial, Helvetica, sans-serif;">
+  <div class="container">
+    <div id="main">
+  <div style="min-height:75px; width:100%; position:relative">
     <div style="margin:25px 50px 0px; float:left;">
         <a style="padding-left:30px" href="https://www.iitg.ac.in"><img src="/static/images/iitg.jpg" style="width:auto; max-height:65px"></a>
     </div>
-    <div style="font-size: 30px; font-family:Lato; position:absolute; bottom:0; padding-left:20px; left:50%; margin-left:-103px; color:#2D2F91; font-weight:bold; line-height:17px">
+    <div style="font-size: 30px; font-family:Lato; 
+    position:absolute; bottom:0; padding-left:20px; left:50%; margin-left:-103px; 
+    color:#2D2F91; font-weight:bold; line-height:17px">
         <center>IIT GUWAHATI </center>
     </div>    
     <div title="Logout" style="margin:25px 50px 0px 0px; float:right; text-align:center; height:auto">
@@ -64,42 +125,43 @@
     height: 31.6px;
     position: relative;
     text-align:center;"> 
-    <div  style="background-color:#2D2F91; width:15%; margin:0px; padding:5px 5px 1px;"  class="hovr"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:charts' %}">Dept. Wise</a></div>
+    <div  class="hovr {% if nbar == 'charts' %}link-active{% endif %}"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:charts' %}">Charts<span class="link-spanner"></span></a></div>
     <!--<div style="background-color:#2D2F91; width:15%; margin:0px; padding:5px 5px 1px"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:dayCharts' %}">Day Wise</a></div>-->
-    <div  style="background-color:#2D2F91; width:15%; margin:0px; padding:5px 5px 1px;" class="hovr"><a style="color:#FFFFFF; text-decoration:none; font-size:15px" href="{% url 'home:showStudent' %}">List View</a></div>
+    <div  class="hovr {% if nbar == 'listView' %}link-active{% endif %}"><a style="color:#FFFFFF; text-decoration:none; font-size:15px;" href="{% url 'home:showStudent' %}">List View<span class="link-spanner"></span></a></div>
 </div>
 
-<body style = "font-family:Arial, Helvetica, sans-serif;">
     {% block content %}
     {% endblock %}
-
+  </div>
+    </div>
     <footer>
-        <div style="width:100%; background-color:#A2A3D3; color:#2D2F91">
-            <p style="text-align:center; margin-bottom:0px;">
-               Please contact Placement Cell(CCD) at placement@iitg.ac.in for any changes.
-               
-            </p>
-         </div>
-         <div style="width:100%; background-color:#A2A3D3; color:#2D2F91; margin:0;">
-
-            <p style="text-align:center; margin-top:0px;">
-               <a href="https://www.fb.com/swciitg" target="_blank" style="color:#2D2F91; text-decoration:none;">© SWC(Students' Web Committee)</a>  |   Designed by
-               <a href="https://www.facebook.com/Miteshyv" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold">Mitesh</a></strong>
-               
-             |   Developed by 
-                          <a href="https://www.facebook.com/coolgoel007" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold">   Sourav  Goel | </a>
-                           <a href="https://www.facebook.com/pranav.gupta.9406417" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold">   Pranav Gupta | </a>
-                <a href="https://www.facebook.com/rahul.mala.14" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold" >  Rahul Mala</a>
-            </p>
-         </div>
+            
+      <p style="text-align:center; padding-top:20px;">
+         Please contact Placement Cell(CCD) at placement@iitg.ac.in for any changes.
+         
+      <br>
+         <a href="https://www.fb.com/swciitg" target="_blank" style="color:#2D2F91; text-decoration:none;">© SWC(Students' Web Committee)</a>  |   Designed by
+         <a href="https://www.facebook.com/Miteshyv" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold">Mitesh</a>
+         
+       |   Developed by 
+                    <a href="https://www.facebook.com/coolgoel007" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold">   Sourav  Goel | </a>
+                     <a href="https://www.linkedin.com/in/pg0/" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold">   Pranav Gupta | </a>
+          <a href="https://www.facebook.com/rahul.mala.14" target="_blank" style="color:#2D2F91; text-decoration:none; font-weight:bold" >  Rahul Mala</a>
+      </p>
+         
       </footer>
 </body>
 
 <script>
-        $(".hovr").hover(function(){
-          $(this).css("background-color", "#4648AA");
-          },function(){
-          $(this).css("background-color", "#2D2F91");
-          });  
+
+        // function backtoBasic(x){
+        //   if 
+        // }
+
+        // $(".hovr").hover(function(){
+        //   $(this).css("background-color", "#4648AA");
+        //   },function(){
+        //   $(this).css("background-color", "#6A62CC");
+        //   });  
     </script>
 </html>

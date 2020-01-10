@@ -217,7 +217,7 @@ def charts(request):
                 )
                    
 	return render(request,'home/branchCharts.html', 
-        {'chart_list': [cht1, cht2]})
+        {'chart_list': [cht1, cht2], 'nbar': 'charts',})
 
 @login_required
 def dayCharts(request):
@@ -415,6 +415,7 @@ def studentsList(request):
 	context = {}
 	context.update(csrf(request))
 	context['students']=students
+	context['nbar']='listView'
 
 	return render_to_response('home/studentsList.html',context)
 
@@ -592,6 +593,8 @@ def showStudent(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('name')
+	context['nbar']='listView'
+
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -600,6 +603,8 @@ def showStudentByName(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('name')
+	context['nbar']='listView'
+
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -608,6 +613,8 @@ def showStudentByProgram(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('programs')
+	context['nbar']='listView'
+
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -616,6 +623,8 @@ def showStudentByBranch(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('branch')
+	context['nbar']='listView'
+
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -624,6 +633,8 @@ def showStudentByRoll(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('roll')
+	context['nbar']='listView'
+
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -632,6 +643,8 @@ def showStudentByPlaced(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('placed')
+	context['nbar']='listView'
+
 	return render_to_response('home/showStudent.html',context)
 
 @login_required
@@ -640,6 +653,8 @@ def showStudentByCompany(request):
 	context={}
 	context.update(csrf(request))
 	context['students']=Student.objects.all().order_by('company')
+	context['nbar']='listView'
+	
 	return render_to_response('home/showStudent.html',context)	
 
 @login_required
