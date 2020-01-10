@@ -18,81 +18,97 @@ def charts(request):
 	# DayTotal.objects.all().delete()
 	# students = Student.objects.all()
 	# for branch in Branch.objects.all():
+	# 	print(branch.branchName)
+	# 	if branch.tnum != 0:
+	# 		branch.per=(branch.num/branch.tnum)*100.00
+	# 	if branch.tmnum != 0:
+	# 		branch.mper=(branch.mnum/branch.tmnum)*100.00
+	# 	branch.save()
+
+	# for branch in Branch.objects.all():
 	# 	branch.num=0
 	# 	branch.mnum=0
+	# 	branch.tnum=0
+	# 	branch.tmnum=0
 	# 	branch.save()
 	# for student in students:
+	# 	print(student.name+"##################")
 
-	# 	day = student.day
-	# 	dobj = Day.objects.filter(dayNum=day, branch=student.branch)
-	# 	print(student.name, student.roll)
+	# # 	day = student.day
+	# # 	dobj = Day.objects.filter(dayNum=day, branch=student.branch)
+	# # 	print(student.name, student.roll)
 	# 	programs = student.programs
 	# 	if programs == 'B.Tech' or programs == 'BTech' or programs == 'B.Des':
-	# 		student.branch.num+=1
-	# 		if dobj.count()==0:
+	# 		if student.placed==True:
+	# 			student.branch.num+=1
+	# 		student.branch.tnum+=1
+	# # 		if dobj.count()==0:
 
-	# 			Day.objects.create(dayNum=day, branch=student.branch)
-	# 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
+	# # 			Day.objects.create(dayNum=day, branch=student.branch)
+	# # 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
 
-	# 		else:
-	# 			dobj = dobj[0]
+	# # 		else:
+	# # 			dobj = dobj[0]
 
-	# 		numObj = DayTotal.objects.filter(dayNum=day)
+	# # 		numObj = DayTotal.objects.filter(dayNum=day)
 			
-	# 		if numObj.count()==0:
+	# # 		if numObj.count()==0:
 				
-	# 			DayTotal.objects.create(dayNum=day)
-	# 			numObj = DayTotal.objects.get(dayNum=day)
+	# # 			DayTotal.objects.create(dayNum=day)
+	# # 			numObj = DayTotal.objects.get(dayNum=day)
 			
-	# 		elif numObj.count()>=1:
+	# # 		elif numObj.count()>=1:
 
-	# 			count = 0;
-	# 			numObj = DayTotal.objects.filter(dayNum=day)
-	# 			for i in numObj:
-	# 				count+=i.num
+	# # 			count = 0;
+	# # 			numObj = DayTotal.objects.filter(dayNum=day)
+	# # 			for i in numObj:
+	# # 				count+=i.num
 
-	# 			numObj = numObj[0]
-	# 			numObj.num=count
+	# # 			numObj = numObj[0]
+	# # 			numObj.num=count
 
-	# 		dobj.num += 1
-	# 		dobj.save()
-
-	# 		numObj.num+=1;
-	# 		numObj.save();
+	# # 		dobj.num += 1
+	# # 		dobj.save()
+	# 		# if student.placed==True:	
+	# 	 # 		numObj.num+=1
+	# 	# 	numobj.tnum+=1
+	# # 		numObj.save();
 
 	# 	elif programs == 'M.Tech' or programs == 'MTech' or programs == 'M.Des' or programs == 'M.Sc' or programs == 'Others':
+	# 		if student.placed==True:	
+	# 			student.branch.mnum+=1
+	# 		student.branch.tmnum+=1
+	# # 		if dobj.count()==0:
+
+	# # 			Day.objects.create(dayNum=day, branch=student.branch)
+	# # 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
+
+	# # 		else:
+	# # 			dobj = dobj[0]
+
+	# # 		numObj = DayTotal.objects.filter(dayNum=day)
 			
-	# 		student.branch.mnum+=1
-	# 		if dobj.count()==0:
-
-	# 			Day.objects.create(dayNum=day, branch=student.branch)
-	# 			dobj = Day.objects.get(dayNum=day, branch=student.branch)
-
-	# 		else:
-	# 			dobj = dobj[0]
-
-	# 		numObj = DayTotal.objects.filter(dayNum=day)
-			
-	# 		if numObj.count()==0:
+	# # 		if numObj.count()==0:
 				
-	# 			DayTotal.objects.create(dayNum=day)
-	# 			numObj = DayTotal.objects.get(dayNum=day)
+	# # 			DayTotal.objects.create(dayNum=day)
+	# # 			numObj = DayTotal.objects.get(dayNum=day)
 			
-	# 		elif numObj.count()>=1:
+	# # 		elif numObj.count()>=1:
 
-	# 			count = 0;
-	# 			numObj = DayTotal.objects.filter(dayNum=day)
-	# 			for i in numObj:
-	# 				count+=i.mnum
+	# # 			count = 0;
+	# # 			numObj = DayTotal.objects.filter(dayNum=day)
+	# # 			for i in numObj:
+	# # 				count+=i.mnum
 
-	# 			numObj = numObj[0]
-	# 			numObj.mnum=count
+	# # 			numObj = numObj[0]
+	# # 			numObj.mnum=count
+	# 		# if student.placed==True:
+	#  	# 		dobj.mnum += 1
+	#  	# 	dobj.tmnum+=1
+	# # 		dobj.save()
 
-	# 		dobj.mnum += 1
-	# 		dobj.save()
-
-	# 		numObj.mnum+=1;
-	# 		numObj.save();
+	# # 		numObj.mnum+=1;
+	# # 		numObj.save();
 	# 	student.branch.save()
 
 	names_to_exclude = ['Mathematics', 'Physics', 'Chemistry', 'Others'] 
@@ -104,7 +120,7 @@ def charts(request):
             [{'options': {
             'source': Branch.objects.exclude(branchName__in=names_to_exclude)},
                 'terms': [{'branch': 'branchName',
-                'Bachelors': 'num'}]
+                'Bachelors(%)': 'per'}]
                 },
 
              ]) 
@@ -118,7 +134,7 @@ def charts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'branch': [
-                    'Bachelors']
+                    'Bachelors(%)']
                   }}],
             chart_options =
               {'title': {
@@ -149,13 +165,13 @@ def charts(request):
                 'exporting': False},
                 )
 
-
+	names_to_exclude = ['CST', 'ECE', 'EP', 'Mathematics']
 	branch_data =  DataPool(
            series=
             [{'options': {
-            'source': Branch.objects.all()},
+            'source': Branch.objects.exclude(branchName__in=names_to_exclude)},
                 'terms': [{'branch': 'branchName',
-                'Masters': 'mnum'}]
+                'Masters(%)': 'mper'}]
                 },
 
              ]) 
@@ -169,7 +185,7 @@ def charts(request):
                   'color': '#2D2F91'},
                 'terms':{
                   'branch': [
-                    'Masters']
+                    'Masters(%)']
                   }}],
             chart_options =
               {'title': {

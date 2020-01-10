@@ -28,6 +28,10 @@ class Branch(models.Model):
 		)
 	num = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 	mnum = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+	tnum = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+	tmnum = models.IntegerField(default=0,validators=[MinValueValidator(0)])
+	per = models.DecimalField(max_digits=5,decimal_places=2, default=0.00)
+	mper = models.DecimalField(max_digits=5,decimal_places=2, default=0.00)
 	def __str__(self):
 		return self.branchName
 

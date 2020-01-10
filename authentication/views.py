@@ -21,7 +21,7 @@ def home(request):
 
   # Building the sign in url
   sign_in_url = get_signin_url(redirect_uri)
-
+  # print(sign_in_url)
   return redirect(sign_in_url)
 
 
@@ -38,6 +38,8 @@ def gettoken(request):
   # get Token from code
   auth_code = request.GET['code']
   redirect_uri = request.build_absolute_uri(reverse('authentication:gettoken'))
+
+  print(redirect_uri+"###########################")
   token = get_token_from_code(auth_code, redirect_uri)
   access_token = token['access_token']
 
